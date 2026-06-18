@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caa0e34c78caea46a2a57a33f5e7b74, type: 3}
+  m_Name: CustomerType_Manager
+  m_EditorClassIdentifier: 
+  typeName: Manager
+  patienceDuration: 12
+  paymentValue: 30
+  indicatorColor: {r: 0.5031446, g: 0, b: 0.40064204, a: 1}

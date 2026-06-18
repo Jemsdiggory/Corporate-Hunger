@@ -18,6 +18,17 @@ namespace CorporateHunger.Customer
         public CustomerTypeData TypeData => typeData;
         public CustomerState CurrentState => currentState;
 
+        public void SetTypeData(CustomerTypeData data)
+        {
+            typeData = data;
+        }
+
+        public void SetQueuePosition(Vector2 position)
+        {
+            targetPosition = position;
+            hasTarget = true;
+        }
+
         private void Start()
         {
             currentState = CustomerState.WaitingInQueue;
@@ -59,15 +70,19 @@ namespace CorporateHunger.Customer
         private void HandleMovement()
         {
             if (!hasTarget) return;
-            if (currentState != CustomerState.WalkingToSeat) return;
 
             float distance = Vector2.Distance(transform.position, targetPosition);
 
             if (distance <= arrivalThreshold)
             {
                 hasTarget = false;
-                currentState = CustomerState.Seated;
-                Debug.Log($"{typeData.typeName} sudah duduk.");
+
+                if (currentState == CustomerState.WalkingToSeat)
+                {
+                    currentState = CustomerState.Seated;
+                    Debug.Log($"{typeData.typeName} sudah duduk.");
+                }
+
                 return;
             }
 
@@ -92,6 +107,8 @@ namespace CorporateHunger.Customer
             {
                 currentState = CustomerState.Leaving;
                 Debug.Log($"{typeData.typeName} kehabisan kesabaran dan pergi!");
+
+                QueueManager.Instance.RemoveFromQueue(this);
                 // Untuk sekarang, langsung hilangkan dari scene.
                 Destroy(gameObject, 1f);
             }
