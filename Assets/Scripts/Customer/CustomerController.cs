@@ -12,6 +12,8 @@ namespace CorporateHunger.Customer
         private CustomerState currentState;
         private Vector2 targetPosition;
         private bool hasTarget = false;
+        private float patienceTimer = 0f;
+        private SpriteRenderer spriteRenderer;
 
         public CustomerTypeData TypeData => typeData;
         public CustomerState CurrentState => currentState;
@@ -19,12 +21,7 @@ namespace CorporateHunger.Customer
         private void Start()
         {
             currentState = CustomerState.WaitingInQueue;
-
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            if (sr != null && typeData != null)
-            {
-                sr.color = typeData.indicatorColor;
-            }
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         public void Interact()
@@ -50,10 +47,16 @@ namespace CorporateHunger.Customer
             targetPosition = tablePosition;
             hasTarget = true;
             currentState = CustomerState.WalkingToSeat;
-            Debug.Log($"{typeData.typeName} berjalan menuju meja.");
         }
 
         private void Update()
+        {
+            HandleMovement();
+            HandlePatience();
+            UpdatePatienceColor();
+        }
+
+        private void HandleMovement()
         {
             if (!hasTarget) return;
             if (currentState != CustomerState.WalkingToSeat) return;
@@ -73,6 +76,44 @@ namespace CorporateHunger.Customer
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
+        }
+
+        private void HandlePatience()
+        {
+            // Kesabaran tidak berjalan kalau sedang makan, sudah selesai,
+            // atau sudah pergi.
+            if (currentState == CustomerState.Eating) return;
+            if (currentState == CustomerState.Finished) return;
+            if (currentState == CustomerState.Leaving) return;
+
+            patienceTimer += Time.deltaTime;
+
+            if (patienceTimer >= typeData.patienceDuration)
+            {
+                currentState = CustomerState.Leaving;
+                Debug.Log($"{typeData.typeName} kehabisan kesabaran dan pergi!");
+                // Untuk sekarang, langsung hilangkan dari scene.
+                Destroy(gameObject, 1f);
+            }
+        }
+
+        private void UpdatePatienceColor()
+        {
+            if (spriteRenderer == null) return;
+            if (currentState == CustomerState.Leaving) return;
+
+            float ratio = patienceTimer / typeData.patienceDuration;
+
+            if (ratio < 0.5f)
+            {
+                // Hijau ke kuning (0% - 50%)
+                spriteRenderer.color = Color.Lerp(Color.green, Color.yellow, ratio * 2f);
+            }
+            else
+            {
+                // Kuning ke merah (50% - 100%)
+                spriteRenderer.color = Color.Lerp(Color.yellow, Color.red, (ratio - 0.5f) * 2f);
+            }
         }
     }
 }
