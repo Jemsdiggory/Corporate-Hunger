@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9caa0e34c78caea46a2a57a33f5e7b74, type: 3}
-  m_Name: CustomerType_Bos
+  m_Name: CustomerType_Tuyul
   m_EditorClassIdentifier: 
-  typeName: Bos
+  typeName: Tuyul
   patienceDuration: 8
-  paymentValue: 50
-  indicatorColor: {r: 0, g: 0.05279662, b: 0.91194963, a: 1}
+  paymentValue: 5
+  indicatorColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9caa0e34c78caea46a2a57a33f5e7b74, type: 3}
-  m_Name: CustomerType_AnakMagang
+  m_Name: CustomerType_Genderuwo
   m_EditorClassIdentifier: 
-  typeName: Anak Magang
+  typeName: Genderuwo
   patienceDuration: 40
-  paymentValue: 5
-  indicatorColor: {r: 1, g: 1, b: 1, a: 1}
+  paymentValue: 50
+  indicatorColor: {r: 0.00841409, g: 0.4245283, b: 0, a: 1}
